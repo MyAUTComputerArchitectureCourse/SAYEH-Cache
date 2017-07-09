@@ -53,6 +53,7 @@ echo "${GREEN}module TB evaluated.${NC}"
 echo "${PURPLE}Testbench wave exporting phase${NC}"
 ghdl -r TB --vcd=wave.vcd
 
+echo "${GREEN}Showing wave form ... ${NC}"
 if [ $platform = 'linux' ]; then
   gtkwave wave.vcd
 elif [ $platform = 'mac' ]; then
