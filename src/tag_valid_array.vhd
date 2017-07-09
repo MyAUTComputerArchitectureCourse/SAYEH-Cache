@@ -19,7 +19,7 @@ entity TAG_VALID_ARRAY is
 	);
 end entity;
 
-architecture DATA_ARRAY_ARCH of DATA_ARRAY is
+architecture TAG_VALID_ARRAY_ARCH of TAG_VALID_ARRAY is
 	type tag_type is array ((2 ** INDEX_SIZE) - 1 downto 0) of std_logic_vector (DATA_SIZE - 1 downto 0);
 	type valid_type is array ((2 ** INDEX_SIZE) - 1 downto 0) of std_logic;
 	
@@ -47,4 +47,4 @@ begin
 		end if;
 	end process CLK_PRC;
 	
-end architecture DATA_ARRAY_ARCH;
+end architecture TAG_VALID_ARRAY_ARCH;
