@@ -1,0 +1,2 @@
+src/data_array.vhd DATA_ARRAY
+src/tag_valid_array.vhd TAG_VALID_ARRAY
