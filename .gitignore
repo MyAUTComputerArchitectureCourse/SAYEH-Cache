@@ -1,0 +1,11 @@
+# Nothing from the out directory should be added to git
+out/*
+*.mti
+*.mpf
+*.bak
+
+
+
+# .gitkeep should be exist to remain the directory in the git
+
+!out/.gitkeep
