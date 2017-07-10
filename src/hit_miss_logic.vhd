@@ -24,12 +24,12 @@ architecture HIT_MISS_LOGIC_ARCH of HIT_MISS_LOGIC is
 begin
 	SIG_GEN : process (TAG, W0_TAG, W0_VALID, W1_TAG, W1_VALID) is
 	begin
-		if W0_IS_VALID = '0' and W1_IS_VALID = '0' then
+		if W0_VALID = '0' and W1_VALID = '0' then
 			HIT <= '0';
 			W0_IS_VALID <= '0';
 			W1_IS_VALID <= '0';
 		else
-			if 	W0_IS_VALID = '1' then
+			if 	W0_VALID = '1' then
 				if W0_TAG = TAG then
 					HIT <= '1';
 					W0_IS_VALID <= '1';
@@ -41,7 +41,7 @@ begin
 				end if;
 			end if;
 			
-			if 	W1_IS_VALID = '1' then
+			if 	W1_VALID = '1' then
 				if W1_TAG = TAG then
 					HIT <= '1';
 					W0_IS_VALID <= '0';
@@ -55,4 +55,4 @@ begin
 		end if;
 	end process SIG_GEN;
 	
-end architecture DATA_ARRAY_ARCH;
+end architecture HIT_MISS_LOGIC_ARCH;
