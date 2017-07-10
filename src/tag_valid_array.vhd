@@ -20,7 +20,7 @@ entity TAG_VALID_ARRAY is
 end entity;
 
 architecture TAG_VALID_ARRAY_ARCH of TAG_VALID_ARRAY is
-	type tag_type is array ((2 ** INDEX_SIZE) - 1 downto 0) of std_logic_vector (DATA_SIZE - 1 downto 0);
+	type tag_type is array ((2 ** INDEX_SIZE) - 1 downto 0) of std_logic_vector (TAG_SIZE - 1 downto 0);
 	type valid_type is array ((2 ** INDEX_SIZE) - 1 downto 0) of std_logic;
 	
 	signal TAGS		: tag_type;
