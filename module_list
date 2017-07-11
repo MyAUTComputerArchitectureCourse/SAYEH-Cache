@@ -3,4 +3,6 @@ src/tag_valid_array.vhd TAG_VALID_ARRAY
 src/counter_array.vhd COUNTER_ARRAY
 src/hit_miss_logic.vhd HIT_MISS_LOGIC
 src/controller.vhd CONTROLLER
-src/data_path.vhd
+src/data_path.vhd DATA_PATH
+src/memory.vhd MEMORY
+src/cached_memory.vhd CACHED_MEMORY
