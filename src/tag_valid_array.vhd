@@ -13,6 +13,7 @@ entity TAG_VALID_ARRAY is
 		INDEX		:	in	std_logic_vector(INDEX_SIZE - 1 downto 0);
 		WRITE_EN	:	in	std_logic;
 		INVALIDATE	:	in	std_logic;
+		IN_VALID	:	in	std_logic;
 		IN_TAG		:	in	std_logic_vector(TAG_SIZE - 1 downto 0);
 		OUT_TAG		:	out std_logic_vector(TAG_SIZE - 1 downto 0);
 		IS_VALID	:	out	std_logic
@@ -32,6 +33,7 @@ begin
 		if rising_edge(CLK) then
 			if WRITE_EN = '1' then
 				TAGS(to_integer(unsigned(INDEX))) <= IN_TAG;
+				VALIDS(to_integer(unsigned(INDEX))) <= IN_VALID;
 			end if;
 			if RESET_N = '1' then
 				for I in 0 to 2 ** INDEX_SIZE loop
