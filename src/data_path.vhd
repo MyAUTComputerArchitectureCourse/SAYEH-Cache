@@ -10,12 +10,12 @@ entity DATA_PATH is
 	port(
 		CLK				:  in 	std_logic;
 		ADDRESS			:  in	std_logic_vector(ADDRESS_SIZE - 1 downto 0);
-		DATA_IN			:  in 	std_logic_vector((2 ** ADDRESS_SIZE) - 1 downto 0);
-		DATA_OUT		:  out	std_logic_vector((2 ** ADDRESS_SIZE) - 1 downto 0);
+		DATA_IN			:  in 	std_logic_vector(DATA_SIZE - 1 downto 0);
+		DATA_OUT		:  out	std_logic_vector(DATA_SIZE - 1 downto 0);
 		W_EN			:  in 	std_logic;
 		R_EN			:  in	std_logic;
-		MEMORY_OUT		:  in	std_logic_vector((2 ** ADDRESS_SIZE) - 1 downto 0);
-		MEMORY_IN		:  out	std_logic_vector((2 ** ADDRESS_SIZE) - 1 downto 0);
+		MEMORY_OUT		:  in	std_logic_vector(DATA_SIZE - 1 downto 0);
+		MEMORY_IN		:  out	std_logic_vector(DATA_SIZE - 1 downto 0);
 		MEMORY_ADDRESS	:  out	std_logic_vector(ADDRESS_SIZE - 1 downto 0);
 		W_EN_MEM		:  out	std_logic;
 		R_EN_MEM		:  out	std_logic;
@@ -92,6 +92,9 @@ architecture DATA_PATH_ARCH of DATA_PATH is
 	
 	
 	component CONTROLLER is
+		generic(
+			COUNTER_SIZE : integer
+		);
 		port(
 			CLK				: in   std_logic;
 			RESET_N0		: out  std_logic;
@@ -120,6 +123,9 @@ architecture DATA_PATH_ARCH of DATA_PATH is
 	end component;
 		
 	
+	-----------------
+	--- TAG|INDEX ---
+	-----------------
 	constant INDEX_SIZE		: integer := 6;
 	constant TAG_SIZE		: integer := 4;
 	constant COUNTER_SIZE	: integer := 16;
@@ -164,9 +170,6 @@ architecture DATA_PATH_ARCH of DATA_PATH is
 	
 	signal DATA_BUS		: std_logic_vector(DATA_SIZE - 1 downto 0);
 	
-	-----------------
-	--- TAG|INDEX ---
-	-----------------
 begin
 	MEMORY_ADDRESS <= ADDRESS;
 	
@@ -263,31 +266,35 @@ begin
 		);
 		
 	CONTROLLER_inst : component CONTROLLER
+		generic map(
+			COUNTER_SIZE => COUNTER_SIZE
+		)
 		port map(
-			CLK         	=> CLK,
-			RESET_N0    	=> RESET_N0,
-			RESET_N1    	=> RESET_N1,
-			DA0_W_EN    	=> DA0_W_EN,
-			DA1_W_EN    	=> DA1_W_EN,
-			DA0_ON_DATABUS	=> DA0_ON_DATABUS,
-			DA1_ON_DATABUS	=> DA1_ON_DATABUS,
-			TVA0_W_EN   	=> TVA0_W_EN,
-			TVA1_W_EN   	=> TVA1_W_EN,
-			IS_HIT      	=> IS_HIT,
-			W0_IS_VALID		=> W0_IS_VALID,
-			W1_IS_VALID		=> W1_IS_VALID,
-			W0_VALID_IN		=> IN_VALIDATE_DVA0,
-			W1_VALID_IN		=> IN_VALIDATE_DVA1,
-			COUNTER_IN0		=> COUNTER_IN0,
-			COUNTER_IN1		=> COUNTER_IN1,
-			COUNTER_PLUS0	=> COUNTER_PLUS0,
-			COUNTER_PLUS1	=> COUNTER_PLUS1,
-			COUNTER_RESET_0	=> COUNTER_RESET_0,
-			COUNTER_RESET_1	=> COUNTER_RESET_1,
-			MEM_DATA_READY	=> MEM_DATA_READY,
-			MODULE_W_EN		=> W_EN,
-			MODULE_R_EN		=> R_EN
+			CLK             => CLK,
+			RESET_N0        => RESET_N0,
+			RESET_N1        => RESET_N1,
+			DA0_W_EN        => DA0_W_EN,
+			DA1_W_EN        => DA1_W_EN,
+			DA0_ON_DATABUS  => DA0_ON_DATABUS,
+			DA1_ON_DATABUS  => DA1_ON_DATABUS,
+			TVA0_W_EN       => TVA0_W_EN,
+			TVA1_W_EN       => TVA1_W_EN,
+			IS_HIT          => IS_HIT,
+			W0_IS_VALID     => W0_IS_VALID,
+			W1_IS_VALID     => W1_IS_VALID,
+			W0_VALID_IN     => IN_VALIDATE_DVA0,
+			W1_VALID_IN     => IN_VALIDATE_DVA1,
+			COUNTER_IN0     => COUNTER_IN0,
+			COUNTER_IN1     => COUNTER_IN1,
+			COUNTER_PLUS0   => COUNTER_PLUS0,
+			COUNTER_PLUS1   => COUNTER_PLUS1,
+			COUNTER_RESET_0 => COUNTER_RESET_0,
+			COUNTER_RESET_1 => COUNTER_RESET_1,
+			MEM_DATA_READY  => MEM_DATA_READY,
+			MODULE_W_EN     => W_EN,
+			MODULE_R_EN     => R_EN
 		);
+		
 		
 	ADDRESS_IN_TAG		<= ADDRESS(ADDRESS_SIZE - 1 downto ADDRESS_SIZE - TAG_SIZE);
 	ADDRESS_IN_INDEX	<= ADDRESS(ADDRESS_SIZE - TAG_SIZE - 1 downto 0);
